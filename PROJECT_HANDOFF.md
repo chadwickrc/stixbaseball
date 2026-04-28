@@ -1,8 +1,11 @@
 # Utah College Baseball Gear Tracker — Project Handoff
 
-**Last updated:** April 23, 2026
+**Last updated:** April 28, 2026
 
 Paste this doc at the start of any new Claude conversation to get full context.
+
+**Live site:** https://stixbaseball.vercel.app
+**GitHub:** https://github.com/chadwickrc/stixbaseball (public, auto-deploys on push to main)
 
 ---
 
