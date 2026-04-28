@@ -72,8 +72,8 @@ A kixstats.com-style site for Utah D1 college baseball. Tracks which bats, glove
 
 - `schools` (id text PK, name, short_name, conference, roster_url, stats_url, instagram) — seeded with 4 rows
 - `players` (id uuid PK, school_id FK, external_id, jersey, name, position, bats, throws, height, weight, class_year, hometown, high_school, previous_school, profile_url, headshot_url, created_at, updated_at) — 147 rows
-- `bats` (id uuid PK, brand, model, length_in, weight_drop, barrel_size, bbcor, colorway, image_url) — empty, not yet seeded
-- `gloves` (id uuid PK, brand, model, size_in, web_type, position_type, colorway, image_url) — empty, not yet seeded
+- `bats` (id uuid PK, brand, model, length_in, weight_drop, barrel_size, bbcor, colorway, image_url) — 20 rows seeded (popular NCAA BBCOR models, no images yet)
+- `gloves` (id uuid PK, brand, model, size_in, web_type, position_type, colorway, image_url) — 15 rows seeded (one canonical config per brand/model, no images yet)
 - `sightings` (id, player_id FK, gear_type check-constraint bat|glove, bat_id FK, glove_id FK, photo_url, photo_date, source, confidence check-constraint low|medium|high, confirmed, confirmed_at, notes) — empty, not yet seeded
 
 ### Storage
@@ -117,6 +117,7 @@ python3 scrape_rosters.py           # creates/updates rosters.csv
 python3 scrape_headshots.py         # downloads images, updates CSV with local paths
 python3 import_players.py           # imports CSV to Supabase players table
 python3 upload_headshots.py         # uploads images to Supabase Storage + links to players
+python3 seed_gear.py                # seeds bats + gloves catalog (idempotent on brand+model)
 ```
 
 Every script is idempotent (safe to re-run).
@@ -170,8 +171,8 @@ Pick from this list when continuing the project:
 
 1. **Git init + VS Code setup** (~15 min, one-time). Prevents future paper cuts. Strongly recommended before more code work.
 2. **Deploy to Vercel** (~15 min). Gets the site on a real public URL, which matters for the "people will actually use it" goal.
-3. **Seed the gear catalog** (~30 min). Insert 20 bat models + 15 glove models into Supabase. Manual but one-time work. This is where the project starts being what it's actually named.
-4. **Sighting pipeline** (multi-session). The flywheel: photo → Claude Vision → review → publish. This is the heavy lift that makes the site valuable.
+3. ~~**Seed the gear catalog**~~ ✅ done 2026-04-28 via `scripts/seed_gear.py` (20 bats, 15 gloves). Future: add image_url to each row, split popular models into size/position variants as sightings demand it.
+4. **Sighting pipeline** (multi-session). The flywheel: photo → Claude Vision → review → publish. This is the heavy lift that makes the site valuable. **Up next.**
 5. **Stats scraper** (~1 hour). Weekly scrape of each school's stats page, joined to players by name.
 6. **Instagram photo collection** (variable). Manual dumps first, maybe Apify later.
 
